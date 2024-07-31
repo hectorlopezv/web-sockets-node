@@ -1,21 +1,23 @@
 import { DiscordService } from "../services/discord.service";
 import { GitHubService } from "../services/github.service";
 import { Request, Response } from 'express';
+
+import { envs } from "../../config/envs";
 export class GithubController {
 
 
     constructor(
       private readonly githubService = new GitHubService(),
       private readonly discordService = new DiscordService(),
+    
     ){}
   
   
-    webhookHandler = ( req: Request, res: Response ) => {
-  
+     webhookHandler = async ( req: Request, res: Response ) => {
       const githubEvent = req.header('x-github-event') ?? 'unknown';
       const payload = req.body;
       let message:string;
-  
+
       switch( githubEvent ) {
   
         case 'star':

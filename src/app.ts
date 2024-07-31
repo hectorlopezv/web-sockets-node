@@ -1,6 +1,7 @@
 import express from "express"
 import { envs } from "./config/envs";
 import { GithubController } from "./presentation/github/controller";
+import { GithubSha256Middleware } from "./presentation/middleware/github.middleware";
 
 (()=>{
   
@@ -14,7 +15,7 @@ function main(){
 
   app.use( express.json() );
 
-  app.post('/api/github', controller.webhookHandler );
+  app.post('/api/github',GithubSha256Middleware.verifySignature, controller.webhookHandler );
 
 
 
